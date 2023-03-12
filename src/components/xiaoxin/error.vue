@@ -5,7 +5,7 @@ const store = errorStore()
 </script>
 
 <template>
-  <div class="hd-error" v-show="store.getError(name)">
+  <div class="rounded-md text-[#d35400] text-sm mt-2 opacity-80" v-show="store.getError(name)">
     <el-alert
       :title="store.getError(name)"
       type="warning"
@@ -16,8 +16,4 @@ const store = errorStore()
   </div>
 </template>
 
-<style lang="scss" scoped>
-.hd-error {
-  @apply rounded-md text-[#d35400] text-sm mt-2 opacity-80;
-}
-</style>
+<style lang="scss" scoped></style>

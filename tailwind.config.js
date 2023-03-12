@@ -8,7 +8,7 @@ module.exports = {
         page: '1450px',
       },
       colors: {
-        'hd-blue': '#62569F',
+        'xx-blue': '#62569F',
       },
       screens: {},
     },
