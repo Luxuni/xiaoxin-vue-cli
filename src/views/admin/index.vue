@@ -77,13 +77,14 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="grid gap-3 bg-gray-100 md:grid-cols-4">
+    <div v-appearance="{ from: { y: -200, duration: 1 } }" class="grid gap-3 bg-gray-100 md:grid-cols-4">
       <el-card
+        v-visual-card
         shadow="hover"
         :body-style="{ padding: '20px' }"
         v-for="(card, index) of cards"
         :key="index"
-        class="cursor-pointer">
+        class="cursor-pointer mycard">
         <template #header>
           <div class="flex items-center justify-between">
             {{ card.title }}
@@ -102,7 +103,7 @@ onMounted(() => {
       </el-card>
     </div>
 
-    <div class="grid gap-3 mt-5 md:grid-cols-2">
+    <div v-appearance="{ from: { y: 200, duration: 1 } }" class="grid gap-3 mt-5 md:grid-cols-2">
       <el-card shadow="always" :body-style="{ padding: '20px' }">
         <template #header>
           <div>用户统计</div>
@@ -131,4 +132,11 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.mycard {
+  --X: 0;
+  --Y: 0;
+  transform: rotateX(var(--X)) rotateY(var(--Y));
+  transition: all 0.5s ease;
+}
+</style>

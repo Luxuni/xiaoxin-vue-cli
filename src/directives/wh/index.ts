@@ -1,5 +1,4 @@
 import { App, DirectiveBinding } from 'vue'
-import { myDebounce } from '../tools'
 let resizeObserver: ResizeObserver | null = null
 export default (app: App) => {
   app.directive('wh', {
