@@ -42,19 +42,24 @@ async function run() {
       //显示下载动画
       const spinner = createSpinner('开始下载...').start()
       //下载git代码
-      download('direct:https://github.com/houdunwang/vue', message.dirname, { clone: true }, function (err) {
-        if (err) {
-          spinner.error({ text: '下载失败' })
-        } else {
-          spinner.success({
-            text: '项目创建成功，请依次执行以下命令',
-          })
-          console.log(chalk.white(`cd ${message.dirname}`))
-          console.log(chalk.white('pnpm i'))
-          console.log(chalk.white('pnpm run dev'))
-          return
-        }
-      })
+      download(
+        'direct:https://github.com/Luxuni/xiaoxin-vue-cli.git',
+        message.dirname,
+        { clone: true },
+        function (err) {
+          if (err) {
+            spinner.error({ text: '下载失败' })
+          } else {
+            spinner.success({
+              text: '项目创建成功，请依次执行以下命令',
+            })
+            console.log(chalk.white(`cd ${message.dirname}`))
+            console.log(chalk.white('pnpm i'))
+            console.log(chalk.white('pnpm run dev'))
+            return
+          }
+        },
+      )
     }
   })
 }
