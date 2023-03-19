@@ -79,7 +79,6 @@ onMounted(() => {
   <div>
     <div v-appearance="{ from: { y: -200, duration: 1 } }" class="grid gap-3 bg-gray-100 md:grid-cols-4">
       <el-card
-        v-visual-card
         shadow="hover"
         :body-style="{ padding: '20px' }"
         v-for="(card, index) of cards"
