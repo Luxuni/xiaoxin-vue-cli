@@ -6,7 +6,7 @@ const menuStore = useMenuStore()
 </script>
 
 <template>
-  <div class="relative z-50 flex items-center justify-between p-2 px-5 bg-white shadow-sm border-b-1">
+  <div class="relative z-50 flex items-center justify-between p-2 px-5 shadow-sm border-b-1 bg-xx-bgcolor">
     <div class="flex items-center">
       <div class="mr-2" @click.stop="menuStore.toggleMenu">
         <MenuUnfoldOne

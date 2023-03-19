@@ -10,6 +10,8 @@ module.exports = {
       },
       colors: {
         'xx-blue': '#62569F',
+        'xx-bgcolor': 'var(--bgcolor)',
+        'xx-tcolor': 'var(--tcolor)',
       },
       screens: {},
     },

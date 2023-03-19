@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --bgcolor: #fff;
+  --tcolor: #000;
+}
+
+html[class='dark'] {
+  --bgcolor: #1a202c;
+  --tcolor: #fff;
+}

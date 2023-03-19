@@ -5,18 +5,19 @@ import { Config, SunOne, Moon } from '@icon-park/vue-next'
 import { DrawerPlacement } from 'naive-ui'
 import { CSSProperties } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const { logout } = useAuth()
 const storeUser = userStore()
 const active = ref(false)
 const placement = ref<DrawerPlacement>('right')
-const theme = ref('light')
 const activate = (place: DrawerPlacement) => {
   active.value = true
   placement.value = place
 }
 const railStyle = ({ focused, checked }: { focused: boolean; checked: boolean }) => {
   const style: CSSProperties = {}
-  if (checked) {
+  if (!checked) {
     style.background = '#FFF4E0'
     if (focused) {
       style.boxShadow = '0 0 0 2px #FFF4E040'
@@ -29,40 +30,53 @@ const railStyle = ({ focused, checked }: { focused: boolean; checked: boolean })
   }
   return style
 }
-const isDark = useDark()
+const isDark = inject('isDark', useDark())
 const toggleDark = useToggle(isDark)
-const onThemeChange = (value: string) => {
+const onThemeChange = () => {
   toggleDark()
-  value === 'light' ? (theme.value = 'light') : (theme.value = 'dark')
+}
+const options = [
+  {
+    label: '后台管理',
+    key: 'Backstage management',
+  },
+  {
+    label: '网站首页',
+    key: 'Home page',
+  },
+  {
+    label: '退出登录',
+    key: 'logout',
+  },
+]
+const handleSelect = (key: string | number) => {
+  switch (key) {
+    case 'Backstage management':
+      router.push({ name: 'admin' })
+      break
+    case 'Home page':
+      router.push({ name: 'home' })
+      break
+    case 'logout':
+      logout()
+      break
+  }
 }
 </script>
 
 <template>
   <main class="flex items-center">
-    <XiaoxinFullscreen class="hidden mr-3 text-gray-600 2xl:flex" />
+    <XiaoxinFullscreen class="hidden mr-3 2xl:flex" />
     <section v-if="!!storeUser.user" class="flex items-center">
-      <el-dropdown trigger="click">
-        <span class="flex items-center el-dropdown-link">
-          <ElImage :src="storeUser.user.avatar" fit="cover" class="w-10 h-10 rounded-md" />
-          <div class="flex flex-col ml-2 text-sm font-light text-gray-600">
+      <n-dropdown trigger="click" :options="options" @select="handleSelect">
+        <span class="flex items-center el-dropdown-link text-xx-tcolor">
+          <n-image :src="storeUser.user.avatar" preview-disabled class="w-10 h-10 rounded-md" />
+          <div class="flex flex-col ml-2 text-sm font-light">
             {{ storeUser.user?.name }}
             <span>注册于 {{ dayjs(storeUser.user?.created_at).fromNow() }} </span>
           </div>
         </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>
-              <router-link :to="{ name: 'admin' }"> 后台管理 </router-link>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <router-link :to="{ name: 'home' }" #default="{ href }" custom>
-                <a :href="href"> 网站首页</a>
-              </router-link>
-            </el-dropdown-item>
-            <el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+      </n-dropdown>
     </section>
     <section v-else class="flex items-stretch gap-2">
       <router-link
@@ -77,24 +91,17 @@ const onThemeChange = (value: string) => {
       </router-link>
     </section>
     <div class="ml-4">
-      <config theme="outline" size="24" fill="#333" @click="activate('right')" />
+      <config theme="outline" size="24" class="text-xx-tcolor" @click="activate('right')" />
     </div>
     <n-drawer v-model:show="active" :width="502" :placement="placement">
       <n-drawer-content title="项目配置">
         <n-divider> 主题 </n-divider>
         <div class="flex items-center justify-center">
-          <n-switch
-            v-model:value="theme"
-            size="large"
-            checked-value="light"
-            default-value="light"
-            unchecked-value="dark"
-            :rail-style="railStyle"
-            :on-update:value="onThemeChange">
-            <template #checked-icon>
+          <n-switch v-model:value="isDark" size="large" :rail-style="railStyle" :on-update:value="onThemeChange">
+            <template #unchecked-icon>
               <n-icon :component="SunOne" />
             </template>
-            <template #unchecked-icon>
+            <template #checked-icon>
               <n-icon :component="Moon" />
             </template>
           </n-switch>

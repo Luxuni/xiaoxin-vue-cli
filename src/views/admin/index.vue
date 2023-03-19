@@ -2,6 +2,8 @@
 import * as echarts from 'echarts'
 import { ref } from 'vue'
 import { echart1, echart2, echart3, echart4 } from './echart'
+import chalk from '../../../public/theme/chalk.json'
+import { useDark } from '@vueuse/core'
 
 interface ICard {
   title: string
@@ -63,34 +65,44 @@ let chart1: echarts.ECharts | null = null
 let chart2: echarts.ECharts | null = null
 let chart3: echarts.ECharts | null = null
 let chart4: echarts.ECharts | null = null
+echarts.registerTheme('chalk', chalk)
+const isDark = inject('isDark', useDark())
 onMounted(() => {
-  chart1 = echarts.init(document.getElementById('echart1') as HTMLDivElement)
+  chart1 = echarts.init(document.getElementById('echart1') as HTMLDivElement, isDark.value ? 'chalk' : 'default')
   chart1.setOption(echart1)
-  chart2 = echarts.init(document.getElementById('echart2') as HTMLDivElement)
+  chart2 = echarts.init(document.getElementById('echart2') as HTMLDivElement, isDark.value ? 'chalk' : 'default')
   chart2.setOption(echart2)
-  chart3 = echarts.init(document.getElementById('echart3') as HTMLDivElement)
+  chart3 = echarts.init(document.getElementById('echart3') as HTMLDivElement, isDark.value ? 'chalk' : 'default')
   chart3.setOption(echart3)
-  chart4 = echarts.init(document.getElementById('echart4') as HTMLDivElement)
+  chart4 = echarts.init(document.getElementById('echart4') as HTMLDivElement, isDark.value ? 'chalk' : 'default')
+  chart4.setOption(echart4)
+})
+watch(isDark, (val) => {
+  chart1?.dispose()
+  chart2?.dispose()
+  chart3?.dispose()
+  chart4?.dispose()
+  chart1 = echarts.init(document.getElementById('echart1') as HTMLDivElement, val ? 'chalk' : 'default')
+  chart1.setOption(echart1)
+  chart2 = echarts.init(document.getElementById('echart2') as HTMLDivElement, val ? 'chalk' : 'default')
+  chart2.setOption(echart2)
+  chart3 = echarts.init(document.getElementById('echart3') as HTMLDivElement, val ? 'chalk' : 'default')
+  chart3.setOption(echart3)
+  chart4 = echarts.init(document.getElementById('echart4') as HTMLDivElement, val ? 'chalk' : 'default')
   chart4.setOption(echart4)
 })
 </script>
 
 <template>
   <div>
-    <div v-appearance="{ from: { y: -200, duration: 1 } }" class="grid gap-3 bg-gray-100 md:grid-cols-4">
-      <el-card
-        shadow="hover"
-        :body-style="{ padding: '20px' }"
-        v-for="(card, index) of cards"
-        :key="index"
-        class="cursor-pointer mycard">
+    <div v-appearance="{ from: { y: -200, duration: 1 } }" class="grid gap-3 bg-xx-bgcolor md:grid-cols-4">
+      <n-card hoverable bordered v-for="(card, index) of cards" :key="index">
         <template #header>
           <div class="flex items-center justify-between">
             {{ card.title }}
-            <el-tag type="danger" size="small" effect="dark">月</el-tag>
+            <n-tag type="error"> 月 </n-tag>
           </div>
         </template>
-
         <section class="flex items-center justify-between mt-3">
           <span class="text-3xl">{{ card.total }}</span>
           <i :class="[card.icon, card.iconColor]" class="text-5xl"></i>
@@ -99,43 +111,23 @@ onMounted(() => {
           {{ card.totalTitle }}
           <span class>{{ card.total }}</span>
         </section>
-      </el-card>
+      </n-card>
     </div>
-
     <div v-appearance="{ from: { y: 200, duration: 1 } }" class="grid gap-3 mt-5 md:grid-cols-2">
-      <el-card shadow="always" :body-style="{ padding: '20px' }">
-        <template #header>
-          <div>用户统计</div>
-        </template>
+      <n-card hoverable bordered title="用户统计">
         <div v-wh="tt1" id="echart1" class="w-full h-72"></div>
-      </el-card>
-      <el-card shadow="always" :body-style="{ padding: '20px' }">
-        <template #header>
-          <div>销售客</div>
-        </template>
+      </n-card>
+      <n-card hoverable bordered title="销售额">
         <div v-wh="tt2" id="echart2" class="w-full h-72"></div>
-      </el-card>
-      <el-card shadow="always" :body-style="{ padding: '20px' }">
-        <template #header>
-          <div>用户统计</div>
-        </template>
+      </n-card>
+      <n-card hoverable bordered title="用户统计">
         <div v-wh="tt3" id="echart3" class="w-full h-72"></div>
-      </el-card>
-      <el-card shadow="always" :body-style="{ padding: '20px' }">
-        <template #header>
-          <div>销售客</div>
-        </template>
+      </n-card>
+      <n-card hoverable bordered title="销售额">
         <div v-wh="tt4" id="echart4" class="w-full h-72"></div>
-      </el-card>
+      </n-card>
     </div>
   </div>
 </template>
 
-<style lang="scss">
-.mycard {
-  --X: 0;
-  --Y: 0;
-  transform: rotateX(var(--X)) rotateY(var(--Y));
-  transition: all 0.5s ease;
-}
-</style>
+<style lang="scss"></style>

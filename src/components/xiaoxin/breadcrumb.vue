@@ -4,11 +4,11 @@ const route = router.currentRoute
 </script>
 
 <template>
-  <main class="">
-    <div class="flex items-center">
+  <main>
+    <div class="flex items-center text-xx-tcolor">
       <router-link :to="{ name: 'home' }">首页</router-link>
       <div class="flex items-center" v-for="(r, index) of route?.matched" :key="index" v-show="r.meta.title">
-        <i class="py-2 box-border opacity-80">/</i>
+        <i class="box-border py-2 opacity-80">/</i>
         <router-link :to="{ path: r.path }">
           {{ r.meta.title }}
         </router-link>

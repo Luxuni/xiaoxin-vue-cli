@@ -1,7 +1,6 @@
 import * as echarts from 'echarts'
 
 export const echart1 = {
-
   title: {
     text: 'ECharts 入门示例',
   },
