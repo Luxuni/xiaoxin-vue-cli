@@ -6,14 +6,10 @@ const menuStore = useMenuStore()
 </script>
 
 <template>
-  <div class="relative z-50 flex items-center justify-between p-2 px-5 shadow-sm border-b-1 bg-xx-bgcolor">
+  <div class="relative z-20 flex items-center justify-between p-2 px-5 shadow-sm border-b-1 bg-xx-bgcolor">
     <div class="flex items-center">
       <div class="mr-2" @click.stop="menuStore.toggleMenu">
-        <MenuUnfoldOne
-          theme="filled"
-          size="24"
-          fill="#10ad57"
-          class="duration-300 cursor-pointer"
+        <MenuUnfoldOne theme="filled" size="24" fill="#10ad57" class="duration-300 cursor-pointer"
           v-if="menuStore.menuState" />
         <MenuFoldOne theme="filled" size="24" fill="#10ad57" class="duration-300 cursor-pointer" v-else />
       </div>

@@ -18,6 +18,8 @@ export default (plugins: Plugin[]) => {
       resolvers: [NaiveUiResolver()],
       imports: [
         'vue',
+        'vue-router',
+        '@vueuse/core',
         {
           'naive-ui': ['useDialog', 'useMessage', 'useNotification', 'useLoadingBar'],
         },

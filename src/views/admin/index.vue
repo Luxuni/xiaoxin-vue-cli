@@ -95,7 +95,7 @@ watch(isDark, (val) => {
 
 <template>
   <div>
-    <div v-appearance="{ from: { y: -200, duration: 1 } }" class="grid gap-3 bg-xx-bgcolor md:grid-cols-4">
+    <div v-appearance="{ from: { y: -200, duration: 1 } }" class="grid gap-3 md:grid-cols-4">
       <n-card hoverable bordered v-for="(card, index) of cards" :key="index">
         <template #header>
           <div class="flex items-center justify-between">
