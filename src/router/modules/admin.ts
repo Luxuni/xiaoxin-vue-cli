@@ -1,11 +1,11 @@
 import { DashboardOne, DocDetail, ImageFiles } from '@icon-park/vue-next'
 import { RouteRecordRaw } from 'vue-router'
 import adminLayout from '@/layouts/admin/index.vue'
-import adminIndex from '@/views/admin/index.vue'
-import animateListVue from '@/views/admin/animateList.vue'
-import utilVue from '@/views/admin/util.vue'
-import wangeditorVue from '@/views/admin/wangeditor.vue'
-import markdownVue from '@/views/admin/markdown.vue'
+import adminIndex from '@/views/admin/dashboard/index.vue'
+import animateListVue from '@/views/admin/dashboard/animateList.vue'
+import utilVue from '@/views/admin/dashboard/util.vue'
+import wangeditorVue from '@/views/admin/editor/wangeditor.vue'
+import markdownVue from '@/views/admin/editor/markdown.vue'
 
 export default [
   {
@@ -71,6 +71,24 @@ export default [
         path: 'singleimage',
         component: () => import('@/views/admin/singleImage.vue'),
         meta: { title: '图片上传', menu: { title: '图片上传' } },
+      },
+    ],
+  },
+  {
+    name: 'ProNative',
+    path: '/pronative',
+    component: adminLayout,
+    meta: {
+      auth: true,
+      menu: { title: 'ProNative', icon: ImageFiles, lock: true },
+    },
+    redirect: { name: 'pronative.proForm' },
+    children: [
+      {
+        name: 'pronative.proForm',
+        path: 'proform',
+        component: () => import('@/views/admin/proNative/ProForm.vue'),
+        meta: { title: 'ProForm', menu: { title: 'ProForm' } },
       },
     ],
   },

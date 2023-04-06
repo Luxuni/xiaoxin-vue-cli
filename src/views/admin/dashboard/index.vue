@@ -2,7 +2,7 @@
 import * as echarts from 'echarts'
 import { ref } from 'vue'
 import { echart1, echart2, echart3, echart4 } from './echart'
-import chalk from '../../../public/theme/chalk.json'
+import chalk from '../../../../public/theme/chalk.json'
 import { useDark } from '@vueuse/core'
 
 interface ICard {
