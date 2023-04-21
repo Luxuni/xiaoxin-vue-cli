@@ -1,10 +1,21 @@
 <script setup lang="ts">
-import ProForm from '@/components/proNative/ProForm'
-import ProFormItem from '@/components/proNative/ProForm/ProFormItem'
-import ProFormText from '@/components/proNative/ProForm/ProFormText'
-import ProFormSelect from '@/components/proNative/ProForm/ProFormSelect'
-import { yup } from '@/plugins/validate'
-import { FormInst, useMessage } from 'naive-ui'
+import {
+  ProForm,
+  ProFormItem,
+  ProFormText,
+  ProFormSelect,
+  ProFormAutoComplete,
+  ProFormDynamicTags,
+  ProFormSwitch,
+  ProFormCheckbox,
+  ProFormCheckboxGroup,
+  ProFormRadio,
+  ProFormTreeSelect,
+  ProFormCascader,
+  ProFormDatePicker
+} from 'pro-native'
+import { FormInst, useMessage, NButton } from 'naive-ui'
+import { ref, computed } from 'vue'
 
 const message = useMessage()
 
@@ -18,48 +29,42 @@ const waitTime = (time: number = 100) => {
 
 const defaultData = {
   input: 'Pro-Native',
-  select: '2'
+  select: '2',
+  autoComplete: '',
+  tags: ['教师', '程序员'],
+  treeSelect: 'Drive My Car',
+  cascader: null,
+  datePicker: null,
+  switch: false,
+  checkbox: false,
+  checkboxGroup: null,
+  radio: false
 }
 
-const rules = {
-  name: {
-    required: true,
-    message: '请输入姓名',
-    trigger: 'blur'
-  },
-  age: {
-    required: true,
-    validator: (rule: any, value: any) => {
-      if (!value) {
-        return Promise.reject('请输入年龄')
-      } else {
-        return yup.number().integer().validate(value) as Promise<void>
-      }
-    },
-    trigger: 'blur'
-  }
-}
+const formRef = ref<{
+  current: FormInst
+  data: typeof defaultData
+} | null>()
 
-const formRef = ref<{ current: FormInst } | null>()
-
-const onFinish = async (e: SubmitEvent, value: typeof defaultData) => {
-  await waitTime(2000)
+const finish = async (value: typeof defaultData) => {
+  await waitTime(1000)
   console.log(value)
-  formRef.value?.current.validate((errors) => {
-    if (!errors) {
-      message.success('Valid')
-    } else {
-      console.log(errors)
-      message.error('Invalid')
-    }
-  })
 }
 
 const request = async () => {
   await waitTime(1500)
   return {
     input: 'Pro-Native',
-    select: '2'
+    select: '2',
+    autoComplete: '',
+    tags: ['教师', '程序员'],
+    treeSelect: 'Drive My Car',
+    cascader: null,
+    datePicker: null,
+    switch: false,
+    checkbox: false,
+    checkboxGroup: null,
+    radio: false
   }
 }
 
@@ -73,18 +78,74 @@ const selectOptions = [
     value: '2'
   }
 ]
+
+const autoCompleteOptions = computed(() => {
+  return ['@gmail.com', '@163.com', '@qq.com'].map((suffix) => {
+    const prefix = formRef.value?.data.autoComplete.split('@')[0]
+    return {
+      label: prefix + suffix,
+      value: prefix + suffix
+    }
+  })
+})
+
+const treeSelectOptions = [
+  {
+    label: 'Rubber Soul',
+    key: 'Rubber Soul',
+    children: [
+      {
+        label: 'Drive My Car',
+        key: 'Drive My Car'
+      },
+      {
+        label: 'Michelle',
+        key: 'Michelle'
+      }
+    ]
+  }
+]
+
+function genOptions(depth = 2, iterator = 1, prefix = ''): any {
+  const length = 12
+  const options = []
+  for (let i = 1; i <= length; ++i) {
+    if (iterator === 1) {
+      options.push({
+        value: `${i}`,
+        label: `${i}`,
+        disabled: i % 5 === 0,
+        children: genOptions(depth, iterator + 1, '' + i)
+      })
+    } else if (iterator === depth) {
+      options.push({
+        value: `${prefix}-${i}`,
+        label: `${prefix}-${i}`,
+        disabled: i % 5 === 0
+      })
+    } else {
+      options.push({
+        value: `${prefix}-${i}`,
+        label: `${prefix}-${i}`,
+        disabled: i % 5 === 0,
+        children: genOptions(depth, iterator + 1, `${prefix}-${i}`)
+      })
+    }
+  }
+  return options
+}
+
+const cascaderOptions = genOptions()
 </script>
 
 <template>
-  <div>
+  <div class="flex items-center justify-center w-full h-full">
     <ProForm
       class="w-1/2"
       :label-width="160"
-      ref="formRef"
-      :default-data="defaultData"
       :request="request"
-      @onFinish="onFinish"
-      :rules="rules"
+      ref="formRef"
+      :finish="finish"
       label-align="right"
       label-placement="left"
     >
@@ -94,9 +155,43 @@ const selectOptions = [
       <ProFormItem label="select" path="select">
         <ProFormSelect :options="selectOptions" />
       </ProFormItem>
-      <template #footer>
-        <n-button type="primary" attr-type="submit">Submit</n-button>
-      </template>
+      <ProFormItem label="auto complete" path="autoComplete">
+        <ProFormAutoComplete
+          :options="autoCompleteOptions"
+          placeholder="email"
+        />
+      </ProFormItem>
+      <ProFormItem label="tags" path="tags">
+        <ProFormDynamicTags />
+      </ProFormItem>
+      <ProFormItem label="tree select" path="treeSelect">
+        <ProFormTreeSelect :options="treeSelectOptions" />
+      </ProFormItem>
+      <ProFormItem label="cascader" path="cascader">
+        <ProFormCascader :options="cascaderOptions" />
+      </ProFormItem>
+      <ProFormItem label="date picker" path="datePicker">
+        <ProFormDatePicker />
+      </ProFormItem>
+      <ProFormItem label="switch" path="switch">
+        <ProFormSwitch />
+      </ProFormItem>
+      <ProFormItem label="checkbox" path="checkbox">
+        <ProFormCheckbox label="Checkbox" />
+      </ProFormItem>
+      <ProFormItem label="checkbox group" path="checkboxGroup">
+        <ProFormCheckboxGroup>
+          <ProFormCheckbox label="options1" value="options1" />
+          <ProFormCheckbox label="options2" value="options2" />
+          <ProFormCheckbox label="options3" value="options3" />
+        </ProFormCheckboxGroup>
+      </ProFormItem>
+      <ProFormItem label="radio" path="radio">
+        <ProFormRadio label="Definitely Maybe" />
+      </ProFormItem>
+      <!-- <template #footer>
+          <n-button type="primary" attr-type="submit">Submit</n-button>
+        </template> -->
     </ProForm>
   </div>
 </template>
