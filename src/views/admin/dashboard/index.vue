@@ -3,7 +3,6 @@ import * as echarts from 'echarts'
 import { ref } from 'vue'
 import { echart1, echart2, echart3, echart4 } from './echart'
 import chalk from '../../../../public/theme/chalk.json'
-import { useDark } from '@vueuse/core'
 
 interface ICard {
   title: string
@@ -66,7 +65,6 @@ let chart2: echarts.ECharts | null = null
 let chart3: echarts.ECharts | null = null
 let chart4: echarts.ECharts | null = null
 echarts.registerTheme('chalk', chalk)
-const isDark = inject('isDark', useDark())
 onMounted(() => {
   chart1 = echarts.init(document.getElementById('echart1') as HTMLDivElement, isDark.value ? 'chalk' : 'default')
   chart1.setOption(echart1)
@@ -77,6 +75,7 @@ onMounted(() => {
   chart4 = echarts.init(document.getElementById('echart4') as HTMLDivElement, isDark.value ? 'chalk' : 'default')
   chart4.setOption(echart4)
 })
+const isDark = ref(false)
 watch(isDark, (val) => {
   chart1?.dispose()
   chart2?.dispose()
