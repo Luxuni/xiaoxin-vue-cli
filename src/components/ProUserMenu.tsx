@@ -3,11 +3,10 @@ import userStore from '@/store/xiaoxin/useUserStore'
 import { Config, Moon, SunOne } from '@icon-park/vue-next'
 import { useDark, useToggle } from '@vueuse/core'
 import {
+  Avatar,
   Divider,
   Drawer,
-  Dropdown,
-  Image,
-  Menu,
+  Dropdown, Menu,
   MenuItem,
   Switch
 } from 'ant-design-vue'
@@ -72,10 +71,9 @@ const ProUserMenu = defineComponent({
             {{
               default: () => (
                 <span class={'flex items-center'}>
-                  <Image
+                  <Avatar
                     src={this.storeUser.user?.avatar}
-                    width={50}
-                    height={50}
+                    class={'w-10 h-10'}
                   />
                   <div class="flex flex-col ml-2 text-sm font-light">
                     {this.storeUser.user?.name}

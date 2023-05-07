@@ -8,7 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Admin: typeof import('./../../src/layouts/admin/index.tsx')['default']
-    AdminHistoryMenu: typeof import('./../../src/layouts/admin/historyMenu.vue')['default']
+    AdminHistoryMenu: typeof import('./../../src/layouts/admin/historyMenu.tsx')['default']
     AdminMenu: typeof import('../../src/layouts/admin/ProMenu.tsx')['default']
     AdminMyMenu: typeof import('../../src/layouts/admin/ProMenu.tsx')['default']
     AdminNavbar: typeof import('../../src/layouts/admin/ProNavBar.tsx')['default']

@@ -71,7 +71,9 @@ const ProMenu = defineComponent({
       })
     }
     return (
-      <Menu {...this.$props.ProMenuProps}>{handleRouters(this.routes)}</Menu>
+      <Menu {...this.$props.ProMenuProps} selectedKeys={[this.$route.name]}>
+        {handleRouters(this.routes)}
+      </Menu>
     )
   }
 })

@@ -1,7 +1,7 @@
 import { DashboardOne, DocDetail, ImageFiles } from '@icon-park/vue-next'
 import { RouteRecordRaw } from 'vue-router'
 import AdminLayout from '@/layouts/admin'
-import adminIndex from '@/views/admin/dashboard/index.vue'
+import analysis from '@/views/admin/dashboard/analysis'
 import animateListVue from '@/views/admin/dashboard/animateList.vue'
 import utilVue from '@/views/admin/dashboard/util.vue'
 import wangeditorVue from '@/views/admin/editor/wangeditor.vue'
@@ -21,8 +21,8 @@ export default [
       {
         name: 'dashboard.workbench',
         path: 'workbench',
-        component: adminIndex,
-        meta: { title: '工作台', menu: { title: '工作台' } }
+        component: analysis,
+        meta: { title: '分析页', menu: { title: '分析页' } }
       },
       {
         name: 'dashboard.animateList',

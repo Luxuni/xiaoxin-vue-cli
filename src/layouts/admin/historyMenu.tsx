@@ -1,4 +1,9 @@
-<script setup lang="ts">
+import router from '@/router'
+import { Tag } from 'ant-design-vue'
+import { RouterLink } from 'vue-router'
+
+{
+  /* <script setup lang="ts">
 import router from '@/router'
 import { LayoutInst } from 'naive-ui'
 // const storage = useStorage()
@@ -42,4 +47,52 @@ const closeTag = (route: { title: string; name: string }) => {
       </n-tag>
     </div>
   </div>
-</template>
+</template> */
+}
+const ProHistoryMenu = defineComponent({
+  name: 'ProHistoryMenu',
+  setup() {
+    const routes = ref<{ title: string; name: string }[]>([])
+    router.beforeResolve(async (to) => {
+      if (Object.keys(to.query).length > 0 || Object.keys(to.params).length > 0)
+        return
+      if (!to.meta.menu?.title || routes.value.find((r) => r.name == to.name))
+        return
+      if (routes.value.length > 10) {
+        routes.value.splice(0, 10)
+      }
+      routes.value.unshift({
+        name: to.name as string,
+        title: to.meta.menu?.title
+      })
+    })
+    const closeTag = (route: { title: string; name: string }) => {
+      const index = routes.value.findIndex((r) => r.name == route.name)
+      routes.value.splice(index, 1)
+    }
+    return {
+      routes,
+      closeTag
+    }
+  },
+  render() {
+    return (
+      !!this.routes.length && (
+        <div
+          class={
+            'p-2 px-5 shadow-sm bg-xx-bgcolor relative z-20 overflow-auto h-[50px]'
+          }
+        >
+          <div class={'absolute flex gap-2 overflow-x-auto whitespace-pre'}>
+            {this.routes.map((route) => (
+              <Tag color={this.$route.name === route.name ? '#87d068' : ''}>
+                <RouterLink to={{ name: route.name }}>{route.title}</RouterLink>
+              </Tag>
+            ))}
+          </div>
+        </div>
+      )
+    )
+  }
+})
+export default ProHistoryMenu

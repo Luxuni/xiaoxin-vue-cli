@@ -1,4 +1,3 @@
-
 import {
   Layout,
   LayoutContent,
@@ -7,13 +6,14 @@ import {
 } from 'ant-design-vue'
 import { RendererElement, RendererNode, VNode } from 'vue'
 import { RouteLocationNormalizedLoaded, RouterView } from 'vue-router'
-import ProNavBar from './ProNavBar'
+import ProHistoryMenu from './historyMenu'
 import ProMenu from './ProMenu'
+import ProNavBar from './ProNavBar'
 
 const AdminLayout = defineComponent({
   name: 'AdminLayout',
   setup() {
-    const collapsed = ref(true)
+    const collapsed = ref(false)
     return {
       collapsed
     }
@@ -25,7 +25,12 @@ const AdminLayout = defineComponent({
           <div class={'w-full h-12 p-2'}>
             <div class={'bg-gray-400 h-full w-full'}></div>
           </div>
-          <ProMenu ProMenuProps={{ theme: 'dark', mode: 'inline' }} />
+          <ProMenu
+            ProMenuProps={{
+              theme: 'dark',
+              mode: 'inline'
+            }}
+          />
         </LayoutSider>
         <Layout>
           <LayoutHeader style={{ background: '#fff', padding: 0 }}>
@@ -39,11 +44,10 @@ const AdminLayout = defineComponent({
           <LayoutContent
             style={{
               margin: '24px 16px',
-              padding: '24px',
-              background: '#fff',
               minHeight: '280px'
             }}
           >
+            <ProHistoryMenu />
             <RouterView>
               {{
                 default: ({
